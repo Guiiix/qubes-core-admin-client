@@ -523,7 +523,7 @@ def qrexec_payload(args: argparse.Namespace, app: qubesadmin.app.QubesBase,
 
         encoded_key = "#" + path + "\n"
         with open(path, "rb") as key:
-            encoded_key += f"#{base64.b64encode(key.read()).decode("ascii")}\n"
+            encoded_key += f"#{base64.b64encode(key.read()).decode('ascii')}\n"
         return encoded_key
 
     def append_keys(payload):
