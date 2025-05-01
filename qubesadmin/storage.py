@@ -226,6 +226,22 @@ class Volume(object):
         self._qubesd_call('Set.revisions_to_keep', str(value).encode('ascii'))
         self._info = None
 
+    @property
+    def disable_snapshot(self) -> bool:
+        """Disable snapshot creation for private volumes"""
+        try:
+            self._fetch_info()
+        except qubesadmin.exc.QubesDaemonAccessError:
+            raise qubesadmin.exc.QubesPropertyAccessError('save_on_stop')
+        return self._info.get('disable_snapshot', False) == 'True'
+
+    @disable_snapshot.setter
+    def disable_snapshot(self, value: bool):
+        """Set disable_snapshot property"""
+        self._qubesd_call(
+            'Set.disable_snapshot', str(value).encode('ascii'))
+        self._info = None
+
     def is_outdated(self):
         """Returns `True` if this snapshot of a source volume (for
         `snap_on_start`=True) is outdated.
